@@ -19,8 +19,8 @@
     <div class="canvas-container">
       <canvas id="captcha-canvas" width="400" height="300"></canvas>
       <br>
-      <button id="clear-canvas-btn">Borrar todo y llorar</button>
-      <button id="submit-canvas-btn">PROBAR MI ARTE Y ENTRAR</button>
+      <button id="clear-canvas-btn" class="retro-btn">Borrar todo y llorar</button>
+      <button id="submit-canvas-btn" class="retro-btn main-btn">PROBAR MI ARTE Y ENTRAR</button>
     </div>
   </section>
 
@@ -29,9 +29,8 @@
   <!-- ========================================== -->
   <section id="main-chaos-screen" class="view hidden">
     
-    <!-- NOTA DE ASSETS: Audio de fondo midi molesto -->
     <audio id="bg-audio" loop>
-      <!-- CAMBIAR ESTO PARA COLOCAR UN AUDIO / MP3 DE FONDO EN assets/audio/musica_fea.mp3 -->
+      <!-- CAMBIAR ESTO PARA COLOCAR UN AUDIO MP3 EN assets/audio/musica_fea.mp3 -->
       <source src="" type="audio/mpeg">
     </audio>
 
@@ -40,23 +39,16 @@
     </header>
 
     <div class="chaos-grid">
-      
       <!-- Video Izquierda -->
       <aside class="video-container left-video">
         <h3>VIDEO OBLIGATORIO 1</h3>
-        <!-- CAMBIAR ESTO PARA COLOCAR UN EMBED DE YOUTUBE DIFERENTE -->
         <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1" 
-                title="YouTube Video 1" 
-                frameborder="0" 
-                allow="autoplay; encrypted-media" 
-                allowfullscreen></iframe>
+                title="YouTube Video 1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </aside>
 
       <!-- Ruleta Central -->
       <main class="roulette-container">
         <h2>RULETA DE LA SUERTE SIN PREMIO</h2>
-        
-        <!-- CAMBIAR ESTO PARA COLOCAR UNA IMAGEN DE LA RULETA EN assets/img/ruleta.png -->
         <div id="roulette-wheel" class="wheel">
           <span>SPIN!</span>
         </div>
@@ -70,24 +62,81 @@
       <!-- Video Derecha -->
       <aside class="video-container right-video">
         <h3>VIDEO OBLIGATORIO 2</h3>
-        <!-- CAMBIAR ESTO PARA COLOCAR UN EMBED DE YOUTUBE DIFERENTE -->
         <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1" 
-                title="YouTube Video 2" 
-                frameborder="0" 
-                allow="autoplay; encrypted-media" 
-                allowfullscreen></iframe>
+                title="YouTube Video 2" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </aside>
-
     </div>
 
-    <!-- Anuncios Simulados Banners -->
+    <!-- ========================================== -->
+    <!-- NUEVA SECCIÓN: MINIJUEGOS ABSURDOS HTML5   -->
+    <!-- ========================================== -->
+    <section class="absurd-games-section">
+      
+      <!-- MINIJUEGO 1: LABERINTO <details> -->
+      <article class="absurd-card">
+        <h3>🔍 LABERINTO DE OPCIONES</h3>
+        <p>Abre el camino correcto para desbloquear tu IP:</p>
+        
+        <details class="retro-details">
+          <summary>📁 Nivel 1: Abrir carpeta misteriosa</summary>
+          <details class="retro-details">
+            <summary>📄 Archivo_Corrupto.exe</summary>
+            <p class="error-text">❌ Error 404: Has invocado a un troyano vintage.</p>
+          </details>
+          <details class="retro-details">
+            <summary>📁 Subcarpeta: NoAbrir/DeVerdadNo</summary>
+            <details class="retro-details">
+              <summary>🔑 Llave_Definitiva.txt</summary>
+              <button class="retro-btn" onclick="alert('¡Felicidades! Ganaste 0.000001 bitcoins!')">¡RECLAMAR RECOMPENSA!</button>
+            </details>
+          </details>
+        </details>
+      </article>
+
+      <!-- MINIJUEGO 2: BARRA DE CARGA MANUAL <progress> + <meter> -->
+      <article class="absurd-card">
+        <h3>⚡ CAPTCHA PSICOMOTRIZ</h3>
+        <p>Mantén presionada la carga presionando velozmente:</p>
+        
+        <div class="progress-box">
+          <progress id="click-progress" value="0" max="100"></progress>
+          <button id="charge-btn" class="retro-btn fire-btn">¡¡CARGAR BATERÍA!!</button>
+        </div>
+
+        <p>Nivel de Frustración Detectado:</p>
+        <meter id="stress-meter" min="0" max="100" low="30" high="70" optimum="10" value="95"></meter>
+      </article>
+
+      <!-- MINIJUEGO 3: MENÚ DESPLEGABLE <select> + <optgroup> -->
+      <article class="absurd-card">
+        <h3>🎂 VALIDA TU EDAD</h3>
+        <label for="age-select">Selecciona exactamente tu fecha/estado:</label>
+        <select id="age-select" size="4" class="retro-select">
+          <optgroup label="Siglos Pasados">
+            <option value="1890">Nací en 1890 (Tengo 136 años)</option>
+          </optgroup>
+          <optgroup label="Valores Matemáticos">
+            <option value="0.5">6 meses de edad</option>
+            <option value="nan">NaN (Not a Number)</option>
+            <option value="18" selected>18 años (En código ASCII: &#56;&#57;)</option>
+            <option value="infinite">Eterno / Inmortal</option>
+          </optgroup>
+        </select>
+        
+        <br>
+        <button class="retro-btn" onclick="document.getElementById('absurd-dialog').showModal()">
+          Ver Términos y Condiciones
+        </button>
+      </article>
+
+    </section>
+
+    <!-- Banners de Anuncios simulados -->
     <section class="fake-ads-banner">
       <div class="ad-box">
-        <!-- CAMBIAR ESTO PARA COLOCAR UNA IMAGEN DE ANUNCIO EN assets/img/ad1.gif -->
         <p>¡HAS GANADO UN IPHONE 3GS! HACE CLIC AQUÍ</p>
       </div>
       <div class="ad-box">
-        <!-- CAMBIAR ESTO PARA COLOCAR UNA IMAGEN DE ANUNCIO EN assets/img/ad2.jpg -->
         <p>LOS DENTISTAS LO ODIAN: APRENDE CSS EN 3 SEGUNDOS</p>
       </div>
     </section>
@@ -95,13 +144,36 @@
   </section>
 
   <!-- ========================================== -->
-  <!-- VISTA 3: MODAL POP-UP / MINIJUEGO          -->
+  <!-- MODAL DIALOG NATIVO HTML5                  -->
+  <!-- ========================================== -->
+  <dialog id="absurd-dialog" class="retro-dialog">
+    <form method="dialog">
+      <h2>📜 CONTRATO DE ALMA DIGITAL</h2>
+      <fieldset class="retro-fieldset">
+        <legend>¿Aceptas ceder tus cookies de por vida?</legend>
+        
+        <input type="radio" id="opt1" name="soul" value="yes" required>
+        <label for="opt1">Sí, completamente</label><br>
+        
+        <input type="radio" id="opt2" name="soul" value="yes2">
+        <label for="opt2">Sí, pero en formato PDF</label><br>
+        
+        <input type="radio" id="opt3" name="soul" value="maybe" disabled>
+        <label for="opt3">No (Deshabilitado por el Administrador)</label>
+      </fieldset>
+
+      <br>
+      <button type="submit" class="retro-btn main-btn">Aceptar y Vender Alma</button>
+    </form>
+  </dialog>
+
+  <!-- ========================================== -->
+  <!-- VISTA 3: MODAL POP-UP / POPUP SOBREPUESTO  -->
   <!-- ========================================== -->
   <div id="popup-modal" class="modal hidden">
     <div class="modal-content">
       <h2>¡¡¡FELICIDADES / ALERTA DE VIRUS!!!</h2>
       
-      <!-- CAMBIAR ESTO PARA COLOCAR UNA IMAGEN/GIF ALEATORIO EN assets/img/popup_gif.gif -->
       <div class="popup-asset-placeholder" id="popup-media">
         <p>[AQUÍ VA UN GIF/IMAGEN EXTRAÑA]</p>
       </div>
@@ -109,7 +181,7 @@
       <div id="minigame-container">
         <p id="quiz-question">¿Cuánto es 1 + 1 en hexadecimal si el sol está amarillo?</p>
         <input type="text" id="quiz-answer" placeholder="Escribe tu respuesta...">
-        <button id="close-modal-btn">Intentar cerrar anuncio</button>
+        <button id="close-modal-btn" class="retro-btn">Intentar cerrar anuncio</button>
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   // ==========================================
-  // VISTA 1: LÓGICA DEL CANVAS (DIBUJO)
+  // VISTA 1: CANVAS
   // ==========================================
   const canvas = document.getElementById("captcha-canvas");
   const ctx = canvas.getContext("2d");
@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const mainChaosScreen = document.getElementById("main-chaos-screen");
 
   let isDrawing = false;
-
   ctx.lineWidth = 5;
   ctx.lineCap = "round";
   ctx.strokeStyle = "#FF0000";
@@ -36,25 +35,21 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   });
 
-  // Falsa verificación: Entra sin importar lo que haya dibujado
   submitBtn.addEventListener("click", () => {
-    alert("¡ARTE VERIFICADO CORRECTAMENTE POR LA IA! BIENVENIDO.");
+    alert("¡ARTE VERIFICADO CORRECTAMENTE POR EL SERVIDOR 1999!");
     gatekeeperScreen.classList.add("hidden");
     mainChaosScreen.classList.remove("hidden");
-    
-    // Iniciar parpadeo loco de fondo
     startBackgroundFlashing();
   });
 
   // ==========================================
-  // VISTA 2: RULETA Y BOTÓN QUE HUYE
+  // VISTA 2: RULETA Y BOTÓN HUYENDE
   // ==========================================
   const spin1Btn = document.getElementById("spin-1-btn");
   const spin10Btn = document.getElementById("spin-10-btn");
   const wheel = document.getElementById("roulette-wheel");
   const popupModal = document.getElementById("popup-modal");
 
-  // El botón de Spin 1 huye del ratón
   spin1Btn.addEventListener("mouseover", () => {
     const randomX = Math.floor(Math.random() * 200) - 100;
     const randomY = Math.floor(Math.random() * 200) - 100;
@@ -62,12 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   let currentRotation = 0;
-
   function triggerSpin() {
     currentRotation += Math.floor(Math.random() * 360) + 1440;
     wheel.style.transform = `rotate(${currentRotation}deg)`;
 
-    // Mostrar Pop-up molesto tras girar
     setTimeout(() => {
       popupModal.classList.remove("hidden");
     }, 3200);
@@ -77,7 +70,32 @@ document.addEventListener("DOMContentLoaded", () => {
   spin10Btn.addEventListener("click", triggerSpin);
 
   // ==========================================
-  // VISTA 3: POP-UP Y MINIJUEGO
+  // LÓGICA DE MINIJUEGOS (PROGRESS BAR)
+  // ==========================================
+  const progressBar = document.getElementById("click-progress");
+  const chargeBtn = document.getElementById("charge-btn");
+  const stressMeter = document.getElementById("stress-meter");
+
+  chargeBtn.addEventListener("click", () => {
+    if (progressBar.value < 100) {
+      progressBar.value += 15;
+    } else {
+      alert("¡CARGA COMPLETA! Has sobrevivido por ahora.");
+      progressBar.value = 0;
+    }
+  });
+
+  // Drenaje constante de la barra cada 350ms
+  setInterval(() => {
+    if (progressBar.value > 0) {
+      progressBar.value -= 6;
+    }
+    // Variación aleatoria del nivel de estrés
+    stressMeter.value = Math.floor(Math.random() * 30) + 70;
+  }, 350);
+
+  // ==========================================
+  // VISTA 3: POP-UP Y PREGUNTA
   // ==========================================
   const closeModalBtn = document.getElementById("close-modal-btn");
   const quizAnswer = document.getElementById("quiz-answer");
@@ -85,23 +103,20 @@ document.addEventListener("DOMContentLoaded", () => {
   closeModalBtn.addEventListener("click", () => {
     const val = quizAnswer.value.trim().toLowerCase();
     
-    // Solo se cierra si la respuesta es exactamente "no se"
     if (val === "no se" || val === "no sé") {
-      alert("Respuesta correcta por falta de lógica. Se cierra la ventana.");
+      alert("Respuesta aceptada. Se cierra la ventana.");
       popupModal.classList.add("hidden");
       quizAnswer.value = "";
     } else {
-      alert("RESPUESTA INCORRECTA. Intenta con: 'no se'");
+      alert("INCORRECTO. Pista: Escribe 'no se'");
     }
   });
 
-  // ==========================================
-  // MODO CLARO / OSCURO CAÓTICO (EXTRA)
-  // ==========================================
+  // MODO PARPADEO EPILÉPTICO
   function startBackgroundFlashing() {
     setInterval(() => {
       document.body.classList.toggle("flash-mode");
-    }, 400); // Cambia el color cada 400ms
+    }, 400);
   }
 
 });
