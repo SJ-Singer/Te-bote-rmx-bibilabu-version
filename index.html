@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡¡¡BIENVENIDO AL MEJOR SITIO DEL MUNDO 2026!!!</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ========================================== -->
+  <!-- VISTA 1: GATEKEEPER / VERIFICACIÓN DIBUJO  -->
+  <!-- ========================================== -->
+  <section id="gatekeeper-screen" class="view">
+    <marquee behavior="alternate" scrollamount="20">
+      <h1>¡DIBUJA UN MONO PARA DEMOSTRAR QUE NO ERES UN ROBOT!</h1>
+    </marquee>
+    
+    <div class="canvas-container">
+      <canvas id="captcha-canvas" width="400" height="300"></canvas>
+      <br>
+      <button id="clear-canvas-btn">Borrar todo y llorar</button>
+      <button id="submit-canvas-btn">PROBAR MI ARTE Y ENTRAR</button>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- VISTA 2: CAOS PRINCIPAL                     -->
+  <!-- ========================================== -->
+  <section id="main-chaos-screen" class="view hidden">
+    
+    <!-- NOTA DE ASSETS: Audio de fondo midi molesto -->
+    <audio id="bg-audio" loop>
+      <!-- CAMBIAR ESTO PARA COLOCAR UN AUDIO / MP3 DE FONDO EN assets/audio/musica_fea.mp3 -->
+      <source src="" type="audio/mpeg">
+    </audio>
+
+    <header class="bad-header">
+      <blink><h1>★★★ EL CAOS TOTAL ★★★</h1></blink>
+    </header>
+
+    <div class="chaos-grid">
+      
+      <!-- Video Izquierda -->
+      <aside class="video-container left-video">
+        <h3>VIDEO OBLIGATORIO 1</h3>
+        <!-- CAMBIAR ESTO PARA COLOCAR UN EMBED DE YOUTUBE DIFERENTE -->
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1" 
+                title="YouTube Video 1" 
+                frameborder="0" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen></iframe>
+      </aside>
+
+      <!-- Ruleta Central -->
+      <main class="roulette-container">
+        <h2>RULETA DE LA SUERTE SIN PREMIO</h2>
+        
+        <!-- CAMBIAR ESTO PARA COLOCAR UNA IMAGEN DE LA RULETA EN assets/img/ruleta.png -->
+        <div id="roulette-wheel" class="wheel">
+          <span>SPIN!</span>
+        </div>
+
+        <div class="roulette-buttons">
+          <button id="spin-1-btn" class="bad-btn">Girar 1 Vez (Imposible de clickear)</button>
+          <button id="spin-10-btn" class="bad-btn">GIRAR 10 VECES (OBLIGATORIO)</button>
+        </div>
+      </main>
+
+      <!-- Video Derecha -->
+      <aside class="video-container right-video">
+        <h3>VIDEO OBLIGATORIO 2</h3>
+        <!-- CAMBIAR ESTO PARA COLOCAR UN EMBED DE YOUTUBE DIFERENTE -->
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1" 
+                title="YouTube Video 2" 
+                frameborder="0" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen></iframe>
+      </aside>
+
+    </div>
+
+    <!-- Anuncios Simulados Banners -->
+    <section class="fake-ads-banner">
+      <div class="ad-box">
+        <!-- CAMBIAR ESTO PARA COLOCAR UNA IMAGEN DE ANUNCIO EN assets/img/ad1.gif -->
+        <p>¡HAS GANADO UN IPHONE 3GS! HACE CLIC AQUÍ</p>
+      </div>
+      <div class="ad-box">
+        <!-- CAMBIAR ESTO PARA COLOCAR UNA IMAGEN DE ANUNCIO EN assets/img/ad2.jpg -->
+        <p>LOS DENTISTAS LO ODIAN: APRENDE CSS EN 3 SEGUNDOS</p>
+      </div>
+    </section>
+
+  </section>
+
+  <!-- ========================================== -->
+  <!-- VISTA 3: MODAL POP-UP / MINIJUEGO          -->
+  <!-- ========================================== -->
+  <div id="popup-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>¡¡¡FELICIDADES / ALERTA DE VIRUS!!!</h2>
+      
+      <!-- CAMBIAR ESTO PARA COLOCAR UNA IMAGEN/GIF ALEATORIO EN assets/img/popup_gif.gif -->
+      <div class="popup-asset-placeholder" id="popup-media">
+        <p>[AQUÍ VA UN GIF/IMAGEN EXTRAÑA]</p>
+      </div>
+
+      <div id="minigame-container">
+        <p id="quiz-question">¿Cuánto es 1 + 1 en hexadecimal si el sol está amarillo?</p>
+        <input type="text" id="quiz-answer" placeholder="Escribe tu respuesta...">
+        <button id="close-modal-btn">Intentar cerrar anuncio</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
