@@ -68,6 +68,12 @@ body.flash-mode {
 #gatekeeper-screen {
   text-align: center;
   padding: 40px 10px;
+  min-height: 100vh;                      
+  box-sizing: border-box;                 
+  background-image: url('utilities/remix.jpg'); 
+  background-size: 100% 100%;                 
+  background-position: center;           
+  background-repeat: no-repeat;
 }
 
 .canvas-container {
@@ -291,4 +297,56 @@ meter {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ========================================== */
+/* CINTILLA DE BOLSARDOS / CARRUSEL CONTINUO  */
+/* ========================================== */
+.ticker-container {
+  width: 100%;
+  overflow: hidden;
+  background-color: #000000;
+  border-top: 3px solid #ffff00;
+  border-bottom: 3px solid #ffff00;
+  padding: 6px 0;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.ticker-track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-left 25s linear infinite; /* Ajusta los segundos para acelerar/frenar */
+}
+
+.ticker-track:hover {
+  animation-play-state: paused; /* Se pausa al pasar el cursor encima */
+}
+
+.stock-item {
+  display: inline-block;
+  font-family: "Courier New", monospace;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0 25px;
+}
+
+.stock-item.green {
+  color: #00ff00;
+  text-shadow: 0 0 6px #00ff00;
+}
+
+.stock-item.red {
+  color: #ff0000;
+  text-shadow: 0 0 6px #ff0000;
+}
+
+/* Animación de desplazamiento horizontal continuo */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%); /* Se desplaza la mitad (ya que duplicamos el contenido) */
+  }
 }

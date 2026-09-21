@@ -120,3 +120,62 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
+
+// ==========================================
+// CINTILLA Y CARRUSEL BOLSARDO
+// ==========================================
+const stockData = [
+  { symbol: "AAPL", price: 242.50, change: 15.4, up: true },
+  { symbol: "TSLA", price: 120.10, change: -32.8, up: false },
+  { symbol: "NVDA", price: 999.99, change: 420.0, up: true },
+  { symbol: "BTC", price: 12.50, change: -99.9, up: false },
+  { symbol: "DOGE", price: 1.00, change: 1000.0, up: true },
+  { symbol: "MSFT", price: 310.20, change: -5.2, up: false },
+  { symbol: "GOOGL", price: 180.45, change: 8.1, up: true },
+  { symbol: "BANANA", price: 0.05, change: -80.0, up: false },
+  { symbol: "MONO", price: 888.88, change: 88.8, up: true }
+];
+
+function initStockTicker() {
+  const track = document.getElementById("ticker-track");
+  if (!track) return;
+
+  // Duplicamos la lista para crear un bucle perfecto sin cortes visuales
+  const fullList = [...stockData, ...stockData];
+
+  track.innerHTML = fullList.map((stock, index) => {
+    const classColor = stock.up ? "green" : "red";
+    const arrow = stock.up ? "▲ +" : "▼ ";
+    return `<span class="stock-item ${classColor}" data-index="${index}">
+      ${stock.symbol} $${stock.price.toFixed(2)} ${arrow}${stock.change.toFixed(1)}%
+    </span>`;
+  }).join('');
+
+  // Cambiar precios aleatoriamente cada 1.5 segundos
+  setInterval(() => {
+    const items = track.querySelectorAll(".stock-item");
+    if (items.length === 0) return;
+
+    // Seleccionamos una acción al azar para actualizarla
+    const randomIdx = Math.floor(Math.random() * items.length);
+    const item = items[randomIdx];
+    
+    const isUp = Math.random() > 0.45;
+    const symbol = item.innerText.split(' ')[0];
+    const newPrice = (Math.random() * 800 + 10).toFixed(2);
+    const newPercent = (Math.random() * 80).toFixed(1);
+
+    if (isUp) {
+      item.className = "stock-item green";
+      item.innerText = `${symbol} $${newPrice} ▲ +${newPercent}%`;
+    } else {
+      item.className = "stock-item red";
+      item.innerText = `${symbol} $${newPrice} ▼ -${newPercent}%`;
+    }
+  }, 1500);
+}
+
+// Iniciar al cargar el DOM
+document.addEventListener("DOMContentLoaded", () => {
+  initStockTicker();
+});
