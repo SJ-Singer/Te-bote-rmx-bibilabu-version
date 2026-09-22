@@ -158,7 +158,7 @@
         <div class="chest-icon">🔒 🧰</div>
         <h2>COFRE DEL TESORO</h2>
         <p id="chest-status-text">Esta zona está protegida  Encuentra la 🔑 <b>Llave_Definitiva.txt</b> por ahí para abrirlo.</p>
-        <button id="open-chest-btn" class="retro-btn fire-btn" disabled>
+        <button id="open-chest-btn" class="retro-btn fire-btn">
           intentar abrir sin llave
         </button>
       </div>
@@ -230,6 +230,21 @@
         <input type="text" id="quiz-answer" placeholder="Escribe tu respuesta...">
         <button id="close-modal-btn" class="retro-btn">Intentar cerrar anuncio</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL MALA SUERTE / SIN LLAVE             -->
+  <!-- ========================================== -->
+  <div id="bad-luck-modal" class="modal hidden">
+    <div class="modal-content bad-luck-content">
+      <button id="close-bad-luck-btn" class="close-x-btn">&times;</button>
+      
+      <div class="bad-luck-img-container">
+        <img src="../utilities/seguridad.jpg" alt="Seguridad" class="bad-luck-img">
+      </div>
+
+      <p class="bad-luck-text">10000 años de mala suerte, mal ahí</p>
     </div>
   </div>
 

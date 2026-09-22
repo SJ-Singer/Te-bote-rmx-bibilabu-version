@@ -87,7 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Drenaje constante de la barra cada 350ms
   setInterval(() => {
     if (progressBar.value > 0) {
       progressBar.value -= 6;
@@ -121,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // LÓGICA DE LA LLAVE Y COFRE DEL TESORO
+  // LÓGICA DE LA LLAVE, COFRE Y MODAL DE MALA SUERTE
   // ==========================================
   let hasKey = false;
   const claimKeyBtn = document.getElementById("claim-key-btn");
@@ -129,6 +128,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const chestStatusText = document.getElementById("chest-status-text");
   const treasureChestBox = document.getElementById("treasure-chest-box");
   const converterBox = document.getElementById("converter-box");
+
+  // Elementos del Modal de Mala Suerte (seguridad.jpg)
+  const badLuckModal = document.getElementById("bad-luck-modal");
+  const closeBadLuckBtn = document.getElementById("close-bad-luck-btn");
 
   if (claimKeyBtn) {
     claimKeyBtn.addEventListener("click", () => {
@@ -146,13 +149,21 @@ document.addEventListener("DOMContentLoaded", () => {
   if (openChestBtn) {
     openChestBtn.addEventListener("click", () => {
       if (!hasKey) {
-        alert("¡El cofre está sellado! Necesitas la llave del laberinto.");
+        // Despliega el modal emergente con la imagen de seguridad
+        if (badLuckModal) badLuckModal.classList.remove("hidden");
         return;
       }
 
       alert("¡EL COFRE SE HA ABIERTO! Se ha desbloqueado el Convertidor de MP4 a MP3.");
       treasureChestBox.classList.add("hidden");
       converterBox.classList.remove("hidden");
+    });
+  }
+
+  // Cierre del modal de mala suerte con el botón 'X'
+  if (closeBadLuckBtn && badLuckModal) {
+    closeBadLuckBtn.addEventListener("click", () => {
+      badLuckModal.classList.add("hidden");
     });
   }
 
@@ -200,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Inicializar la cinta de acciones
+  // Inicializar la cinta de acciones al cargar el DOM
   initStockTicker();
 
 });
