@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Convertidor video mp3 a mp5</title>
+  <title>Convertidor video mp4 a mp3</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -94,7 +94,7 @@
             <summary>📁 Subcarpeta: NoAbrir/DeVerdadNo</summary>
             <details class="retro-details">
               <summary>🔑 Llave_Definitiva.txt</summary>
-              <button class="retro-btn" onclick="alert('¡Felicidades! Ganaste 0.000001 bitcoins!')">¡RECLAMAR RECOMPENSA!</button>
+              <button id="claim-key-btn" class="retro-btn">¡RECLAMAR RECOMPENSA!</button>
             </details>
           </details>
         </details>
@@ -147,7 +147,47 @@
         <p>LOS DENTISTAS LO ODIAN: APRENDE CSS EN 3 SEGUNDOS</p>
       </div>
     </section>
+    
+    <!-- ========================================== -->
+    <!-- SECCIÓN ZONA BLOQUEADA POR EL COFRE       -->
+    <!-- ========================================== -->
+    <section class="locked-zone-container">
+      
+      <!-- ESTADO 1: COFRE BLOQUEADO -->
+      <div id="treasure-chest-box" class="chest-card">
+        <div class="chest-icon">🔒 🧰</div>
+        <h2>COFRE DEL TESORO</h2>
+        <p id="chest-status-text">Esta zona está protegida  Encuentra la 🔑 <b>Llave_Definitiva.txt</b> por ahí para abrirlo.</p>
+        <button id="open-chest-btn" class="retro-btn fire-btn" disabled>
+          intentar abrir sin llave
+        </button>
+      </div>
 
+      <!-- ESTADO 2: CONVERTIDOR MP4 A MP3 (BLOQUEADO POR DEFECTO) -->
+      <div id="converter-box" class="absurd-card converter-card hidden">
+        <h2>🎵 CONVERTIDOR ULTRA RÁPIDO DE MP4 A MP3 (100% REAL 2026)</h2>
+        <p>Selecciona tu archivo MP4 local para extraer el audio MP3:</p>
+        
+        <div class="converter-inputs">
+          <input type="file" id="video-input" accept="video/mp4" class="retro-btn">
+          <br><br>
+          <button id="convert-btn" class="retro-btn main-btn">¡CONVERTIR A MP3 YA!</button>
+        </div>
+
+        <div id="conversion-status" class="conversion-status"></div>
+
+        <!-- REPRODUCTOR / DESCARGA MP3 RESULTANTE -->
+        <div id="audio-result-box" class="hidden">
+          <h3>¡AUDIO EXTRAÍDO CON ÉXITO!</h3>
+          <audio id="audio-preview" controls></audio>
+          <br><br>
+          <a id="download-audio-btn" class="retro-btn fire-btn" download="audio_extraido.mp3">
+            💾 DESCARGAR MP3
+          </a>
+        </div>
+      </div>
+
+    </section>
   </section>
 
   <!-- ========================================== -->
@@ -179,10 +219,10 @@
   <!-- ========================================== -->
   <div id="popup-modal" class="modal hidden">
     <div class="modal-content">
-      <h2>¡¡¡FELICIDADES / ALERTA DE VIRUS!!!</h2>
+      <h2>¡¡¡FELICIDADES!!!</h2>
       
       <div class="popup-asset-placeholder" id="popup-media">
-        <p>[AQUÍ VA UN GIF/IMAGEN EXTRAÑA]</p>
+        
       </div>
 
       <div id="minigame-container">

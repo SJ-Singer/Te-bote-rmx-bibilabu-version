@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   // ==========================================
-  // VISTA 1: CANVAS
+  // VISTA 1: CANVAS DE VERIFICACIÓN
   // ==========================================
   const canvas = document.getElementById("captcha-canvas");
   const ctx = canvas.getContext("2d");
@@ -57,11 +57,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   let currentRotation = 0;
+  
   function triggerSpin() {
     currentRotation += Math.floor(Math.random() * 360) + 1440;
     wheel.style.transform = `rotate(${currentRotation}deg)`;
 
     setTimeout(() => {
+      loadRandomPopupVideo(); // CARGA EL VIDEO ALEATORIO
       popupModal.classList.remove("hidden");
     }, 3200);
   }
@@ -90,7 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (progressBar.value > 0) {
       progressBar.value -= 6;
     }
-    // Variación aleatoria del nivel de estrés
     stressMeter.value = Math.floor(Math.random() * 30) + 70;
   }, 350);
 
@@ -119,6 +120,89 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 400);
   }
 
+  // ==========================================
+  // LÓGICA DE LA LLAVE Y COFRE DEL TESORO
+  // ==========================================
+  let hasKey = false;
+  const claimKeyBtn = document.getElementById("claim-key-btn");
+  const openChestBtn = document.getElementById("open-chest-btn");
+  const chestStatusText = document.getElementById("chest-status-text");
+  const treasureChestBox = document.getElementById("treasure-chest-box");
+  const converterBox = document.getElementById("converter-box");
+
+  if (claimKeyBtn) {
+    claimKeyBtn.addEventListener("click", () => {
+      hasKey = true;
+      alert("¡Felicidades! Ganaste 0.000001 Bitcoins y obtuviste la 🔑 LLAVE DEL COFRE.");
+      
+      if (openChestBtn && chestStatusText) {
+        openChestBtn.disabled = false;
+        openChestBtn.innerText = "🔓 ABRIR COFRE CON LA LLAVE";
+        chestStatusText.innerHTML = "¡Tienes la llave en tu poder! Haz clic en el botón para abrir el cofre.";
+      }
+    });
+  }
+
+  if (openChestBtn) {
+    openChestBtn.addEventListener("click", () => {
+      if (!hasKey) {
+        alert("¡El cofre está sellado! Necesitas la llave del laberinto.");
+        return;
+      }
+
+      alert("¡EL COFRE SE HA ABIERTO! Se ha desbloqueado el Convertidor de MP4 a MP3.");
+      treasureChestBox.classList.add("hidden");
+      converterBox.classList.remove("hidden");
+    });
+  }
+
+  // ==========================================
+  // CONVERTIDOR MP4 A MP3 CON WEB AUDIO API
+  // ==========================================
+  const videoInput = document.getElementById("video-input");
+  const convertBtn = document.getElementById("convert-btn");
+  const conversionStatus = document.getElementById("conversion-status");
+  const audioResultBox = document.getElementById("audio-result-box");
+  const audioPreview = document.getElementById("audio-preview");
+  const downloadAudioBtn = document.getElementById("download-audio-btn");
+
+  if (convertBtn) {
+    convertBtn.addEventListener("click", async () => {
+      const file = videoInput.files[0];
+      if (!file) {
+        alert("Por favor selecciona primero un archivo MP4.");
+        return;
+      }
+
+      conversionStatus.innerText = "⏳ Decodificando video e hiper-procesando audio...";
+      convertBtn.disabled = true;
+
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+
+        const wavBlob = bufferToWave(audioBuffer, audioBuffer.length);
+        const audioUrl = URL.createObjectURL(wavBlob);
+
+        audioPreview.src = audioUrl;
+        downloadAudioBtn.href = audioUrl;
+        downloadAudioBtn.download = file.name.replace(/\.[^/.]+$/, "") + ".mp3";
+
+        conversionStatus.innerText = "✅ ¡Conversión completada!";
+        audioResultBox.classList.remove("hidden");
+      } catch (err) {
+        console.error(err);
+        conversionStatus.innerText = "❌ Error al procesar el archivo. Asegúrate de subir un MP4 válido.";
+      } finally {
+        convertBtn.disabled = false;
+      }
+    });
+  }
+
+  // Inicializar la cinta de acciones
+  initStockTicker();
+
 });
 
 // ==========================================
@@ -140,7 +224,6 @@ function initStockTicker() {
   const track = document.getElementById("ticker-track");
   if (!track) return;
 
-  // Duplicamos la lista para crear un bucle perfecto sin cortes visuales
   const fullList = [...stockData, ...stockData];
 
   track.innerHTML = fullList.map((stock, index) => {
@@ -151,12 +234,10 @@ function initStockTicker() {
     </span>`;
   }).join('');
 
-  // Cambiar precios aleatoriamente cada 1.5 segundos
   setInterval(() => {
     const items = track.querySelectorAll(".stock-item");
     if (items.length === 0) return;
 
-    // Seleccionamos una acción al azar para actualizarla
     const randomIdx = Math.floor(Math.random() * items.length);
     const item = items[randomIdx];
     
@@ -175,7 +256,56 @@ function initStockTicker() {
   }, 1500);
 }
 
-// Iniciar al cargar el DOM
-document.addEventListener("DOMContentLoaded", () => {
-  initStockTicker();
-});
+// ==========================================
+// POP-UP CON VIDEO ALEATORIO
+// ==========================================
+const popupVideos = [
+  "utilities/cashea.mp4",
+  "utilities/quesillo.mp4",
+  "utilities/ronaldo.mp4"
+];
+
+function loadRandomPopupVideo() {
+  const container = document.getElementById("popup-media");
+  if (!container) return;
+
+  const randomIndex = Math.floor(Math.random() * popupVideos.length);
+  const selectedVideo = popupVideos[randomIndex];
+
+  container.innerHTML = `
+    <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover;">
+      <source src="${selectedVideo}" type="video/mp4">
+      Tu navegador no soporta video.
+    </video>
+  `;
+}
+
+// ==========================================
+// HELPER PARA PROCESAMIENTO DE AUDIO (WAV/MP3)
+// ==========================================
+function bufferToWave(abuffer, len) {
+  let numOfChan = abuffer.numberOfChannels,
+      length = len * numOfChan * 2 + 44,
+      out = new DataView(new ArrayBuffer(length)),
+      channels = [], i, sample, offset = 0, pos = 0;
+
+  function setUint16(data) { out.setUint16(pos, data, true); pos += 2; }
+  function setUint32(data) { out.setUint32(pos, data, true); pos += 4; }
+
+  setUint32(0x46464952); setUint32(length - 8); setUint32(0x45564157);
+  setUint32(0x20746d66); setUint32(16); setUint16(1); setUint16(numOfChan);
+  setUint32(abuffer.sampleRate); setUint32(abuffer.sampleRate * 2 * numOfChan);
+  setUint16(numOfChan * 2); setUint16(16); setUint32(0x61746164); setUint32(length - pos - 4);
+
+  for (i = 0; i < abuffer.numberOfChannels; i++) channels.push(abuffer.getChannelData(i));
+
+  while (offset < len) {
+    for (i = 0; i < numOfChan; i++) {
+      sample = Math.max(-1, Math.min(1, channels[i][offset]));
+      sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0;
+      out.setInt16(pos, sample, true); pos += 2;
+    }
+    offset++;
+  }
+  return new Blob([out], { type: "audio/mp3" });
+}
