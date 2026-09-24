@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   submitBtn.addEventListener("click", () => {
-    alert("¡ARTE VERIFICADO CORRECTAMENTE POR EL SERVIDOR 1999!");
+    alert("¡ARTE VERIFICADO CORRECTAMENTE POR EL SERVIDOR 676767!");
     gatekeeperScreen.classList.add("hidden");
     mainChaosScreen.classList.remove("hidden");
     playBackgroundMusic();
@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (mazeFailVideoContainer) {
       mazeFailVideoContainer.innerHTML = `
         <video autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover;">
-          <source src="utilities/spiderman.mp4" type="video/mp4">
+          <source src="utilities/Aspiderman.mp4" type="video/mp4">
         </video>
       `;
     }
@@ -438,10 +438,10 @@ function initStockTicker() {
 // POP-UP CON VIDEO ALEATORIO
 // ==========================================
 const popupVideos = [
-  "utilities/cashea.mp4",
-  "utilities/quesillo.mp4",
-  "utilities/chinesse.mp4",
-  "utilities/ronaldo.mp4"
+  "utilities/Acashea.mp4",
+  "utilities/Aquesillo.mp4",
+  "utilities/Achinesse.mp4",
+  "utilities/Aronaldo.mp4"
 ];
 
 function loadRandomPopupVideo() {
