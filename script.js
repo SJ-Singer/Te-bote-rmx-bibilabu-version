@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  // Variable de estado para controlar el silenciado permanente
+  let isPermanentlyMuted = false;
+
   // ==========================================
   // VISTA 1: CANVAS DE VERIFICACIÓN
   // ==========================================
@@ -10,6 +13,32 @@ document.addEventListener("DOMContentLoaded", () => {
   
   const gatekeeperScreen = document.getElementById("gatekeeper-screen");
   const mainChaosScreen = document.getElementById("main-chaos-screen");
+
+  // Elemento de audio de fondo
+  const bgAudio = document.getElementById("bg-audio");
+
+  function playBackgroundMusic() {
+    // Si la música ya fue silenciada definitivamente, bloqueamos cualquier intento de reproducción
+    if (isPermanentlyMuted) return;
+
+    if (bgAudio) {
+      bgAudio.volume = 0.5;
+      bgAudio.play().catch(error => {
+        console.log("Autoplay bloqueado:", error);
+      });
+    }
+  }
+
+  function muteBackgroundMusic(permanent = false) {
+    if (permanent) {
+      isPermanentlyMuted = true;
+    }
+    if (bgAudio) {
+      bgAudio.pause();
+      bgAudio.currentTime = 0;
+      alert("🔇 ¡Música silenciada con éxito!");
+    }
+  }
 
   let isDrawing = false;
   ctx.lineWidth = 5;
@@ -39,37 +68,180 @@ document.addEventListener("DOMContentLoaded", () => {
     alert("¡ARTE VERIFICADO CORRECTAMENTE POR EL SERVIDOR 1999!");
     gatekeeperScreen.classList.add("hidden");
     mainChaosScreen.classList.remove("hidden");
+    playBackgroundMusic();
     startBackgroundFlashing();
   });
 
   // ==========================================
-  // VISTA 2: RULETA Y BOTÓN HUYENDE
+  // VISTA 2: RULETA Y BOTONES HUYENDES
   // ==========================================
   const spin1Btn = document.getElementById("spin-1-btn");
   const spin10Btn = document.getElementById("spin-10-btn");
+  const muteElusiveBtn = document.getElementById("mute-elusive-btn");
   const wheel = document.getElementById("roulette-wheel");
   const popupModal = document.getElementById("popup-modal");
 
+  // Botón que huye: Girar 1 Vez
   spin1Btn.addEventListener("mouseover", () => {
     const randomX = Math.floor(Math.random() * 200) - 100;
     const randomY = Math.floor(Math.random() * 200) - 100;
     spin1Btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
   });
 
+  // Botón que huye: Silenciar Música
+  if (muteElusiveBtn) {
+    muteElusiveBtn.addEventListener("mouseover", () => {
+      // Movimiento aleatorio en ejes X e Y
+      const randomX = Math.floor(Math.random() * 250) - 120;
+      const randomY = Math.floor(Math.random() * 300) - 150;
+      muteElusiveBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    });
+
+    muteElusiveBtn.addEventListener("click", () => {
+      openMazeModal();
+    });
+  }
+
   let currentRotation = 0;
   
   function triggerSpin() {
+    playBackgroundMusic();
     currentRotation += Math.floor(Math.random() * 360) + 1440;
     wheel.style.transform = `rotate(${currentRotation}deg)`;
 
     setTimeout(() => {
-      loadRandomPopupVideo(); // CARGA EL VIDEO ALEATORIO
+      loadRandomPopupVideo();
       popupModal.classList.remove("hidden");
     }, 3200);
   }
 
   spin1Btn.addEventListener("click", triggerSpin);
   spin10Btn.addEventListener("click", triggerSpin);
+
+  // ==========================================
+  // MINIJUEGO DEL CUADRITO ROJO Y LAS PAREDES
+  // ==========================================
+  const mazeModal = document.getElementById("maze-modal");
+  const closeMazeBtn = document.getElementById("close-maze-btn");
+  const mazePlayer = document.getElementById("maze-player");
+  const mazeGameOver = document.getElementById("maze-game-over");
+  const mazeWin = document.getElementById("maze-win");
+  const retryMazeBtn = document.getElementById("retry-maze-btn");
+  const failMuteBtn = document.getElementById("fail-mute-btn");
+  const winMuteBtn = document.getElementById("win-mute-btn");
+  const mazeFailVideoContainer = document.getElementById("maze-fail-video-container");
+
+  let playerPos = { x: 10, y: 10 };
+  let isMazeActive = false;
+
+  function openMazeModal() {
+    if (!mazeModal) return;
+    mazeModal.classList.remove("hidden");
+    resetMaze();
+  }
+
+  function resetMaze() {
+    playerPos = { x: 10, y: 10 };
+    updatePlayerStyle();
+    if (mazeGameOver) mazeGameOver.classList.add("hidden");
+    if (mazeWin) mazeWin.classList.add("hidden");
+    isMazeActive = true;
+  }
+
+  function updatePlayerStyle() {
+    if (mazePlayer) {
+      mazePlayer.style.left = playerPos.x + "px";
+      mazePlayer.style.top = playerPos.y + "px";
+    }
+  }
+
+  // Escuchar flechas direccionales
+  window.addEventListener("keydown", (e) => {
+    if (!isMazeActive) return;
+
+    const step = 8;
+    const key = e.key;
+
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(key)) {
+      e.preventDefault(); // Evitar scroll de pantalla
+    }
+
+    if (key === "ArrowUp") playerPos.y = Math.max(0, playerPos.y - step);
+    if (key === "ArrowDown") playerPos.y = Math.min(230, playerPos.y + step);
+    if (key === "ArrowLeft") playerPos.x = Math.max(0, playerPos.x - step);
+    if (key === "ArrowRight") playerPos.x = Math.min(380, playerPos.x + step);
+
+    updatePlayerStyle();
+    checkMazeCollisions();
+  });
+
+  function checkMazeCollisions() {
+    // Dimensiones del jugador (20x20)
+    const p = { left: playerPos.x, right: playerPos.x + 20, top: playerPos.y, bottom: playerPos.y + 20 };
+
+    // Pared 1: left 120, width 20, top 0, height 180
+    const w1 = { left: 120, right: 140, top: 0, bottom: 180 };
+    // Pared 2: left 250, width 20, top 70, height 180
+    const w2 = { left: 250, right: 270, top: 70, bottom: 250 };
+    // Meta B: left 365, top 215
+    const goal = { left: 360, top: 210 };
+
+    // Detección choque pared 1 o pared 2
+    if (checkOverlap(p, w1) || checkOverlap(p, w2)) {
+      triggerMazeFail();
+      return;
+    }
+
+    // Detección victoria (Punto B)
+    if (p.right >= goal.left && p.bottom >= goal.top) {
+      isMazeActive = false;
+      if (mazeWin) mazeWin.classList.remove("hidden");
+    }
+  }
+
+  function checkOverlap(rect1, rect2) {
+    return !(rect1.right < rect2.left || 
+             rect1.left > rect2.right || 
+             rect1.bottom < rect2.top || 
+             rect1.top > rect2.bottom);
+  }
+
+  function triggerMazeFail() {
+    isMazeActive = false;
+    if (mazeGameOver) mazeGameOver.classList.remove("hidden");
+
+    if (mazeFailVideoContainer) {
+      mazeFailVideoContainer.innerHTML = `
+        <video autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover;">
+          <source src="utilities/spiderman.mp4" type="video/mp4">
+        </video>
+      `;
+    }
+  }
+
+  if (retryMazeBtn) retryMazeBtn.addEventListener("click", resetMaze);
+
+  if (closeMazeBtn && mazeModal) {
+    closeMazeBtn.addEventListener("click", () => {
+      mazeModal.classList.add("hidden");
+      isMazeActive = false;
+    });
+  }
+
+  // Mutear definitivamente desde la derrota o la victoria
+  if (failMuteBtn) {
+    failMuteBtn.addEventListener("click", () => {
+      muteBackgroundMusic(true); // Bloqueo permanente
+      if (mazeModal) mazeModal.classList.add("hidden");
+    });
+  }
+
+  if (winMuteBtn) {
+    winMuteBtn.addEventListener("click", () => {
+      muteBackgroundMusic(true); // Bloqueo permanente
+      if (mazeModal) mazeModal.classList.add("hidden");
+    });
+  }
 
   // ==========================================
   // LÓGICA DE MINIJUEGOS (PROGRESS BAR)
@@ -129,7 +301,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const treasureChestBox = document.getElementById("treasure-chest-box");
   const converterBox = document.getElementById("converter-box");
 
-  // Elementos del Modal de Mala Suerte (seguridad.jpg)
   const badLuckModal = document.getElementById("bad-luck-modal");
   const closeBadLuckBtn = document.getElementById("close-bad-luck-btn");
 
@@ -139,7 +310,6 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("¡Felicidades! Ganaste 0.000001 Bitcoins y obtuviste la 🔑 LLAVE DEL COFRE.");
       
       if (openChestBtn && chestStatusText) {
-        openChestBtn.disabled = false;
         openChestBtn.innerText = "🔓 ABRIR COFRE CON LA LLAVE";
         chestStatusText.innerHTML = "¡Tienes la llave en tu poder! Haz clic en el botón para abrir el cofre.";
       }
@@ -149,7 +319,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (openChestBtn) {
     openChestBtn.addEventListener("click", () => {
       if (!hasKey) {
-        // Despliega el modal emergente con la imagen de seguridad
         if (badLuckModal) badLuckModal.classList.remove("hidden");
         return;
       }
@@ -160,7 +329,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Cierre del modal de mala suerte con el botón 'X'
   if (closeBadLuckBtn && badLuckModal) {
     closeBadLuckBtn.addEventListener("click", () => {
       badLuckModal.classList.add("hidden");
@@ -211,7 +379,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Inicializar la cinta de acciones al cargar el DOM
   initStockTicker();
 
 });
@@ -273,6 +440,7 @@ function initStockTicker() {
 const popupVideos = [
   "utilities/cashea.mp4",
   "utilities/quesillo.mp4",
+  "utilities/chinesse.mp4",
   "utilities/ronaldo.mp4"
 ];
 
