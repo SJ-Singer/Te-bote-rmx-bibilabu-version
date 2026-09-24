@@ -28,10 +28,14 @@
   <!-- VISTA 2: CAOS PRINCIPAL                     -->
   <!-- ========================================== -->
   <section id="main-chaos-screen" class="view hidden">
+
+      <!-- BOTÓN FLOTANTE / STICKY EN EL LATERAL DERECHO -->
+    <button id="mute-elusive-btn" class="sticky-mute-btn fire-btn">
+      🔇 SILENCIAR MÚSICA (IMPOSIBLE)
+    </button>
     
     <audio id="bg-audio" loop>
-      <!-- CAMBIAR ESTO PARA COLOCAR UN AUDIO MP3 EN assets/audio/musica_fea.mp3 -->
-      <source src="" type="audio/mpeg">
+      <source src="utilities/background.mp3" type="audio/mpeg">
     </audio>
 
     <header class="bad-header">
@@ -61,8 +65,8 @@
         </div>
 
         <div class="roulette-buttons">
-          <button id="spin-1-btn" class="bad-btn">Girar 1 Vez (Imposible de clickear)</button>
-          <button id="spin-10-btn" class="bad-btn">GIRAR 10 VECES (OBLIGATORIO)</button>
+          <button id="spin-1-btn" class="bad-btn">Girar 1 Vez</button>
+          <button id="spin-10-btn" class="bad-btn">GIRAR 10 VECES</button>
         </div>
       </main>
 
@@ -245,6 +249,44 @@
       </div>
 
       <p class="bad-luck-text">10000 años de mala suerte, mal ahí</p>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL MINIJUEGO: LABERINTO DEL CUADRITO   -->
+  <!-- ========================================== -->
+  <div id="maze-modal" class="modal hidden">
+    <div class="modal-content maze-content">
+      <button id="close-maze-btn" class="close-x-btn">&times;</button>
+      
+      <h2>🔴 Hola :P</h2>
+      <p class="maze-instructions">
+        Usa las <b>⬆️ ⬇️ ⬅️ ➡️ FLECHAS DIRECCIONALES</b> 
+      </p>
+
+      <!-- ÁREA DEL LABERINTO -->
+      <div id="maze-container" class="maze-container">
+        <div id="maze-player" class="maze-player">A</div>
+        <div id="maze-wall-1" class="maze-wall"></div>
+        <div id="maze-wall-2" class="maze-wall"></div>
+        <div id="maze-goal" class="maze-goal">B</div>
+      </div>
+
+      <!-- PANTALLA DERROTA / CHOQUE CON PARED -->
+      <div id="maze-game-over" class="maze-overlay hidden">
+        <h3>💥 ¡que vaina contigo spiderman! 💥</h3>
+        <div id="maze-fail-video-container" class="popup-asset-placeholder"></div>
+        <button id="fail-mute-btn" class="retro-btn main-btn">🔇 MUTEAR DE TODAS FORMAS (soy malo)</button>
+        <button id="retry-maze-btn" class="retro-btn">🔄 INTENTAR OTRA VEZ (soy god)</button>
+      </div>
+
+      <!-- PANTALLA VICTORIA -->
+      <div id="maze-win" class="maze-overlay hidden">
+        <h3>🎉 ¡Aja sisi llegaste al otro lado! 🎉</h3>
+        <p>quita la musica ps.</p>
+        <button id="win-mute-btn" class="retro-btn fire-btn">🔇 APAGAR MÚSICA DEFINITIVAMENTE</button>
+      </div>
+
     </div>
   </div>
 
